@@ -1,13 +1,27 @@
-from pathlib import Path
-import sys, os, bs4, requests, re
+import sys, os, bs4, requests
 
-res = requests.get(res_link)
+base_link = 'https://kitsunekko.net/dirlist.php?dir=subtitles%2Fjapanese%2F'
+anime = 'Urusei Yatsura (2022)'
+anime_link = base_link + anime
+os.makedirs(anime, exist_ok=True)
+
+res = requests.get(anime_link)
 res.raise_for_status()
 soup = bs4.BeautifulSoup(res.content, 'lxml')
-links = soup.select('a')
+links = soup.select('a[href]')
 all_links = []
 for link in links:
-    if link_segment in str(link):
-        all_links.append(link)
+    link = str(link).split('"')
+    if len(link) > 3:
+        all_links.append(link[3])
 
+for file in all_links:
+    file_link = 'https://kitsunekko.net/' + file
+    res = requests.get(file_link)
+    res.raise_for_status()
+    print(os.path.join(sys.argv[0], os.path.basename(file_link)[-20]))
+    sub_file = open(os.path.join(r'C:\Users\betit\Desktop', os.path.basename(file)),'wb')
 
+    for chunk in res.iter_content(100000):
+        sub_file.write(chunk)
+    sub_file.close()
