@@ -22,6 +22,9 @@ for file in all_links:
     res.raise_for_status()
     sub_file = open(os.path.join(anime, os.path.basename(file)),'wb')
 
+    #Nota: Escribir archivos en el diretorio de trabajo puede llegar a ocasionar errores
+    #      Si quieres probar el código hazlo en un directorio fijo
+
     for chunk in res.iter_content(100000):
         sub_file.write(chunk)
     sub_file.close()
