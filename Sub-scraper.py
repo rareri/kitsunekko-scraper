@@ -3,7 +3,7 @@ import sys, os, bs4, requests
 base_link = 'https://kitsunekko.net/dirlist.php?dir=subtitles%2Fjapanese%2F'
 anime = sys.argv[1]
 anime_link = base_link + anime
-os.chdir(r'C:\Users\betit\Desktop')
+
 os.makedirs(anime, exist_ok=True)
 
 res = requests.get(anime_link)
@@ -20,7 +20,7 @@ for file in all_links:
     file_link = 'https://kitsunekko.net/' + file
     res = requests.get(file_link)
     res.raise_for_status()
-    sub_file = open(os.path.join(r'C:\Users\betit\Desktop\\'+anime, os.path.basename(file)),'wb')
+    sub_file = open(os.path.join(anime, os.path.basename(file)),'wb')
 
     for chunk in res.iter_content(100000):
         sub_file.write(chunk)
