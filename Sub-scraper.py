@@ -1,7 +1,7 @@
 import sys, os, bs4, requests
 
 base_link = 'https://kitsunekko.net/dirlist.php?dir=subtitles%2Fjapanese%2F'
-anime = 'Urusei Yatsura (2022)'
+anime = sys.argv[1]
 anime_link = base_link + anime
 os.chdir(r'C:\Users\betit\Desktop')
 os.makedirs(anime, exist_ok=True)
