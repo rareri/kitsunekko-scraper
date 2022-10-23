@@ -1,0 +1,13 @@
+from pathlib import Path
+import sys, os, bs4, requests, re
+
+res = requests.get(res_link)
+res.raise_for_status()
+soup = bs4.BeautifulSoup(res.content, 'lxml')
+links = soup.select('a')
+all_links = []
+for link in links:
+    if link_segment in str(link):
+        all_links.append(link)
+
+
