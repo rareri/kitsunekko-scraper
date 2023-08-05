@@ -4,6 +4,17 @@ base_link = 'https://kitsunekko.net/dirlist.php?dir=subtitles%2Fjapanese%2F'
 anime = sys.argv[1]
 anime_link = base_link + anime
 
+os.chdir(os.path.expanduser("~\Downloads"))
+
+#Changes the working directory to the downloads folder
+
+invalid_chars = ["|" , ":" , "*" , "/" , "\\" , "\"" , "?" , ">" , "<"]
+for char in invalid_chars:
+    if char in anime:
+        anime = anime.replace(char, " ")
+
+#Makes sure that the directory will have a valid name
+
 os.makedirs(anime, exist_ok=True)
 
 res = requests.get(anime_link)
@@ -23,6 +34,10 @@ for file in all_links:
     res = requests.get(file_link)
     res.raise_for_status()
     sub_file = open(os.path.join(anime, os.path.basename(file)),'wb')
+
+        #Nota: Escribir archivos en el diretorio de trabajo puede llegar a ocasionar errores
+        #      Si quieres probar el código hazlo en un directorio fijo
+
     for chunk in res.iter_content(100000):
         sub_file.write(chunk)
 
